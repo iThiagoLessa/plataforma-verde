@@ -2,23 +2,20 @@ import React from "react";
 import "./Table.css";
 
 const Table = (props) => {
-
-  //console.log(props.line);
-
   function excluir(id) {
     const index = props.line.findIndex((elm) => {
       return elm.id === id;
     });
-    delete props.line[index];
+    //removendo do json
+    props.line.splice(props.line.indexOf(index), 1);
     props.excluirLinha(props.line);
   }
-
   function formatarDataParaEditar(data) {
     const [day, month, year] = data.match(/\d+/g);
     return `${year}-${month}-${day}`;
   }
-
   function editar(id) {
+    //alterando o estado para o pai poder saber que é uma edição
     props.editarLinha(true);
     const form = document.forms.registration;
     const [nome, date, state, city] = form;

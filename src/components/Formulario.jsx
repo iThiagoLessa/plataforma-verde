@@ -6,10 +6,8 @@ class Formulario extends Component {
   constructor() {
     super();
     this.enviarForm = this.enviarForm.bind(this);
-    this.setPessoa = this.setPessoa.bind(this);
     this.updateTable = this.updateTable.bind(this);
     this.editTable = this.editTable.bind(this);
-    this.searchIndex = this.searchIndex.bind(this);
     this.state = {
       edit: false,
       index: null,
