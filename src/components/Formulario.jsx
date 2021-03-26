@@ -25,11 +25,27 @@ class Formulario extends Component {
     event.preventDefault();
     const form = document.forms.registration;
     const { name, date, state, city } = form;
+    if(name.value.trim().length === 0) { 
+        name.classList.add("error"); 
+        return;
+    }
+    if(date.value.trim().length === 0) {
+        date.classList.add("error"); 
+        return;
+    }
+    if(state.value.trim().length === 0) {
+        state.classList.add("error"); 
+        return;
+    }
+    if(city.value.trim().length === 0) {
+        city.classList.add("error"); 
+        return;
+    }
     //dividindo a data para formata-la para o padrao
     const datePart = date.value.match(/\d+/g);
     const obj = {
       nome: name.value,
-      data: `${datePart[2]}/${datePart[1]}/${datePart[0]}`,
+      data: date.value,
       estado: state.value,
       cidade: city.value,
     };
@@ -47,11 +63,11 @@ class Formulario extends Component {
         >
           <div>
             <label htmlFor="name">Nome</label>
-            <input required id="name" type="text" name="nome" />
+            <input  id="name" type="text" name="nome" />
           </div>
           <div>
             <label htmlFor="date">Data de Nascimento</label>
-            <input required id="date" type="date" name="data" />
+            <input id="date" type="date" name="data" />
           </div>
           <div>
             <label htmlFor="state">Estado</label>
