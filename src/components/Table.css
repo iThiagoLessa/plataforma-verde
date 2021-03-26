@@ -20,3 +20,9 @@
 .hidden {
     display: none;
 }
+
+.editar, .excluir {
+    width: 36px;
+    height: auto;
+    cursor: pointer;
+}

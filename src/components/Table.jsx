@@ -1,5 +1,7 @@
 import React from "react";
 import "./Table.css";
+import EditarImg from "../assets/img/editar.png";
+import ExcluirImg from "../assets/img/excluir.png";
 
 const Table = (props) => {
   function excluir(id) {
@@ -53,8 +55,8 @@ const Table = (props) => {
                 <td>{itens.idade}</td>
                 <td>{itens.estado}</td>
                 <td>{itens.cidade}</td>
-                <td onClick={(_) => editar(itens.id)}>editar</td>
-                <td onClick={(_) => excluir(itens.id)}>excluir</td>
+                <td onClick={(_) => editar(itens.id)}><img className="editar" alt="editar usuario" src={EditarImg} /></td>
+                <td onClick={(_) => excluir(itens.id)}><img className="excluir" alt="excluir usuario" src={ExcluirImg} /></td>
               </tr>
             );
           })}
