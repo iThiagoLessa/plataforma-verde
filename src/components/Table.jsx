@@ -17,15 +17,6 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>José da Silva</td>
-            <td>11/09/1995</td>
-            <td>25</td>
-            <td>RJ</td>
-            <td>Rio de Janeiro</td>
-            <td>editar</td>
-            <td>excluir</td>
-          </tr>
           {props.line.map((itens, index) => {
             return (
               <tr key={index}>

@@ -10,7 +10,9 @@
     border-radius: 4px;
     box-sizing: border-box;
 }
-
+.error {
+    border: 1px solid red !important;
+}
 .form-cadastro > div {
     display: flex;
     flex-direction: column;
