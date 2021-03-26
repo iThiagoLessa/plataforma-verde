@@ -5,13 +5,32 @@ const Table = (props) => {
 
   //console.log(props.line);
 
-
   function excluir(id) {
-    const people = props.line.findIndex((elm) => {
+    const index = props.line.findIndex((elm) => {
       return elm.id === id;
-    })
-    delete props.line[people];
-    props.alterarEstado(props.line);
+    });
+    delete props.line[index];
+    props.excluirLinha(props.line);
+  }
+
+  function formatarDataParaEditar(data) {
+    const [day, month, year] = data.match(/\d+/g);
+    return `${year}-${month}-${day}`;
+  }
+
+  function editar(id) {
+    props.editarLinha(true);
+    const form = document.forms.registration;
+    const [nome, date, state, city] = form;
+    const index = props.line.findIndex((elm) => {
+      return elm.id === id;
+    });
+    //atualizando o valor dos campos
+    nome.value = props.line[index].nome;
+    date.value = formatarDataParaEditar(props.line[index].data);
+    state.value = props.line[index].estado;
+    city.value = props.line[index].cidade;
+    props.searchIndex(index);
   }
 
   return (
@@ -37,8 +56,8 @@ const Table = (props) => {
                 <td>{itens.idade}</td>
                 <td>{itens.estado}</td>
                 <td>{itens.cidade}</td>
-                <td>editar</td>
-                <td onClick={_ => excluir(itens.id)}>excluir</td>
+                <td onClick={(_) => editar(itens.id)}>editar</td>
+                <td onClick={(_) => excluir(itens.id)}>excluir</td>
               </tr>
             );
           })}
