@@ -7,6 +7,7 @@ class Formulario extends Component {
     super();
     this.enviarForm = this.enviarForm.bind(this);
     this.criarPessoa = this.criarPessoa.bind(this);
+    this.updateTable = this.updateTable.bind(this);
     this.state = {
       pessoa: [],
     };
@@ -18,22 +19,43 @@ class Formulario extends Component {
     const novoArray = {
       pessoa: novoObjetoPessoa,
     };
+    console.log(`nova pessoa: ${novoArray}`);
     this.setState(novoArray);
+  }
+
+  updateTable(valor) {
+    this.setState(valor);
+  }
+
+  formataData(data) {
+    const [year, month, day] = data.match(/\d+/g);
+    return `${day}/${month}/${year}`;
+  }
+  
+  calculaIdade(data) {
+    const formatData = data.match(/\d+/g);
+    const [year, month, day] = formatData;
+    const dateCurrent = new Date();
+    let idade = dateCurrent.getFullYear() - year;
+    if((dateCurrent.getMonth() + 1 < month) || (dateCurrent.getMonth() + 1 === month && dateCurrent.getDate() < day)) {
+      return idade - 1;
+    }
+    return idade;
   }
 
   enviarForm(event) {
     event.preventDefault();
     const form = document.forms.registration;
     const { name, date, state, city } = form;
-    //dividindo a data para formata-la para o padrao
-    const datePart = date.value.match(/\d+/g);
     const obj = {
+      id: this.state.pessoa.length + 1,
       nome: name.value,
-      data: `${datePart[2]}/${datePart[1]}/${datePart[0]}`,
+      data: this.formataData(date.value),
+      idade: this.calculaIdade(date.value),
       estado: state.value,
       cidade: city.value,
     };
-    //função para alterar o estado
+    //função para alterar o estado do componente
     this.criarPessoa(obj);
   }
 
@@ -47,7 +69,7 @@ class Formulario extends Component {
         >
           <div>
             <label htmlFor="name">Nome</label>
-            <input required id="name" type="text" name="nome" />
+            <input required id="name" type="text" name="nome" placeholder="Informe seu nome" />
           </div>
           <div>
             <label htmlFor="date">Data de Nascimento</label>
@@ -69,7 +91,7 @@ class Formulario extends Component {
           </div>
           <button className="button-cadastro">Adicionar</button>
         </form>
-        <Table line={this.state.pessoa} />
+        <Table line={this.state.pessoa} alterarEstado={this.updateTable} />
       </div>
     );
   }
