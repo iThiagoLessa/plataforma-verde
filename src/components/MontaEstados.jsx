@@ -20,7 +20,7 @@ const MontaEstados = (props) => {
   }
   return (
     <select required id="state" onChange={(_) => getCitiesId()}>
-      <option value="null">Selecione o estado</option>
+      <option value="">Selecione o estado</option>
       {props.estados.map((estados, index) => {
         return (
           <option

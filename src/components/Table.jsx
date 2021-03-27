@@ -12,6 +12,8 @@ const Table = (props) => {
     //removendo do json
     props.line.splice(props.line.indexOf(index), 1);
     props.excluirLinha(props.line);
+    console.log(props.line);
+    console.log(index);
   }
   function formatarDataParaEditar(data) {
     const [day, month, year] = data.match(/\d+/g);
@@ -31,6 +33,8 @@ const Table = (props) => {
     state.value = props.line[index].estado;
     city.value = props.line[index].cidade;
     props.searchIndex(index);
+    console.log(props.line);
+    console.log(props.line[index]);
   }
 
   return (

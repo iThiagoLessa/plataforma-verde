@@ -17,9 +17,8 @@ class Formulario extends Component {
       index: null,
       pessoa: [],
       estados: [],
-      cidades: []
+      cidades: [],
     };
-
   }
 
   componentDidMount() {
@@ -34,16 +33,15 @@ class Formulario extends Component {
     );
   }
 
-
   setEstado(json) {
-    if(json.length > 0) {
-      this.setState({estados: json})
+    if (json.length > 0) {
+      this.setState({ estados: json });
     }
   }
 
   setCidade(json) {
-    if(json.length > 0) {
-      this.setState({cidades: json});
+    if (json.length > 0) {
+      this.setState({ cidades: json });
     }
   }
 
@@ -95,16 +93,32 @@ class Formulario extends Component {
     event.preventDefault();
     const form = document.forms.registration;
     const { name, date, state, city } = form;
+    if(name.value.trim() === " " || date.value.trim() === "" || state.value.trim() === "" || city.value.trim() === "") return;
+    const i = this.state.index;
+    const obj = [...this.state.pessoa];
     if (this.state.edit) {
-      const i = this.state.index;
-      const obj = [...this.state.pessoa];
-      obj[i].nome = name.value;
-      obj[i].data = this.formataData(date.value);
-      obj[i].idade = this.calculaIdade(date.value);
-      obj[i].estado = state.value;
-      obj[i].cidade = city.value;
-      this.setPessoa(obj);
-      this.setState({ edit: false, index: null });
+      if (obj[i] === undefined) {
+        this.setState({ edit: false, index: null });
+        const obj = {
+          id: this.state.pessoa.length + 1,
+          nome: name.value,
+          data: this.formataData(date.value),
+          idade: this.calculaIdade(date.value),
+          estado: state.value,
+          cidade: city.value,
+        };
+        //função para alterar o estado do componente
+        this.setPessoa(obj);
+      } else {
+        obj[i].nome = name.value;
+        obj[i].data = this.formataData(date.value);
+        obj[i].idade = this.calculaIdade(date.value);
+        obj[i].estado = state.value;
+        obj[i].cidade = city.value;
+        this.setPessoa(obj);
+        this.setState({ edit: false, index: null });
+        form.reset();
+      }
     } else {
       const obj = {
         id: this.state.pessoa.length + 1,
@@ -116,10 +130,10 @@ class Formulario extends Component {
       };
       //função para alterar o estado do componente
       this.setPessoa(obj);
+      form.reset();
     }
-    form.reset();
   }
-  
+
   render() {
     return (
       <div>
@@ -144,7 +158,11 @@ class Formulario extends Component {
           </div>
           <div>
             <label htmlFor="state">Estado</label>
-            <MontaEstados estados={this.state.estados} setCidade={this.setCidade} listaEstados={this.state.cidade} />
+            <MontaEstados
+              estados={this.state.estados}
+              setCidade={this.setCidade}
+              listaEstados={this.state.cidade}
+            />
           </div>
           <div>
             <label htmlFor="city">Cidade</label>

@@ -3,7 +3,7 @@ import React from "react";
 const MountCidades = (props) => {
   return (
     <select required id="city">
-      <option value="null">Selecione o estado</option>
+      <option value="">Selecione o estado</option>
       {props.cidades.map((cidades, index) => {
         return (
           <option
