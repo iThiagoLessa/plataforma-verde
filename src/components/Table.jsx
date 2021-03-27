@@ -4,6 +4,7 @@ import EditarImg from "../assets/img/editar.png";
 import ExcluirImg from "../assets/img/excluir.png";
 
 const Table = (props) => {
+ // console.log(props.line);
   function excluir(id) {
     const index = props.line.findIndex((elm) => {
       return elm.id === id;

@@ -1,36 +1,67 @@
 import React, { Component } from "react";
 import Table from "./Table";
+import MontaEstados from "./MontaEstados";
 import "./Formulario.css";
+import MountCidades from "./MountCidades";
 
 class Formulario extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.enviarForm = this.enviarForm.bind(this);
     this.updateTable = this.updateTable.bind(this);
     this.editTable = this.editTable.bind(this);
+    this.searchIndex = this.searchIndex.bind(this);
+    this.setCidade = this.setCidade.bind(this);
     this.state = {
       edit: false,
       index: null,
       pessoa: [],
+      estados: [],
+      cidades: []
     };
+
+  }
+
+  componentDidMount() {
+    fetch("http://www.geonames.org/childrenJSON?geonameId=3469034").then(
+      (resp) => {
+        if (resp.status === 200) {
+          resp.json().then((json) => {
+            this.setEstado(json.geonames);
+          });
+        }
+      }
+    );
+  }
+
+
+  setEstado(json) {
+    if(json.length > 0) {
+      this.setState({estados: json})
+    }
+  }
+
+  setCidade(json) {
+    if(json.length > 0) {
+      this.setState({cidades: json});
+    }
   }
 
   //funçao para criar um novo objeto chamado pessoa
   setPessoa(lista) {
-    if(this.state.edit) {
+    if (this.state.edit) {
       this.setState(lista);
-    }else {
+    } else {
       const novoObjetoPessoa = [...this.state.pessoa, lista];
       const novoArray = {
         pessoa: novoObjetoPessoa,
       };
       this.setState(novoArray);
     }
-    
   }
 
   searchIndex(index) {
-    this.setState({index});
+    this.setState({ index });
   }
 
   editTable(valor) {
@@ -64,7 +95,7 @@ class Formulario extends Component {
     event.preventDefault();
     const form = document.forms.registration;
     const { name, date, state, city } = form;
-    if(this.state.edit) {
+    if (this.state.edit) {
       const i = this.state.index;
       const obj = [...this.state.pessoa];
       obj[i].nome = name.value;
@@ -73,8 +104,8 @@ class Formulario extends Component {
       obj[i].estado = state.value;
       obj[i].cidade = city.value;
       this.setPessoa(obj);
-      this.setState({edit: false, index: null});
-    }else {
+      this.setState({ edit: false, index: null });
+    } else {
       const obj = {
         id: this.state.pessoa.length + 1,
         nome: name.value,
@@ -88,7 +119,7 @@ class Formulario extends Component {
     }
     form.reset();
   }
-
+  
   render() {
     return (
       <div>
@@ -113,19 +144,11 @@ class Formulario extends Component {
           </div>
           <div>
             <label htmlFor="state">Estado</label>
-            <select required id="state">
-              <option>Selecione o estado</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="SP">São Paulo</option>
-            </select>
+            <MontaEstados estados={this.state.estados} setCidade={this.setCidade} listaEstados={this.state.cidade} />
           </div>
           <div>
             <label htmlFor="city">Cidade</label>
-            <select required id="city">
-              <option>Selecione a cidade</option>
-              <option value="Rio de Janeiro">Rio de Janeiro</option>
-              <option value="São Paulo">São Paulo</option>
-            </select>
+            <MountCidades cidades={this.state.cidades} />
           </div>
           <button className="button-cadastro">
             {this.state.edit ? "Editar" : "Adicionar"}
