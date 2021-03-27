@@ -34,7 +34,7 @@ const Table = (props) => {
   }
 
   return (
-    <div>
+    <div className="conteudo-table">
       <table className="tabela">
         <thead>
           <tr>
