@@ -1,5 +1,5 @@
 
-
+# para iniciar o projeto é necessário que instale todas as dependencias do react.
 
 <!-- padrao react -->
 
