@@ -140,7 +140,7 @@ class Formulario extends Component {
           </div>
           <div>
             <label htmlFor="date">Data de Nascimento</label>
-            <input required id="date" type="date" name="data" />
+            <input id="date" type="date" name="data" />
           </div>
           <div>
             <label htmlFor="state">Estado</label>
