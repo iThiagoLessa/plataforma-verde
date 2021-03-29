@@ -178,6 +178,7 @@ class Formulario extends Component {
           excluirLinha={this.updateTable}
           editarLinha={this.editTable}
           searchIndex={this.searchIndex}
+          setCidade={this.setCidade}
         />
       </div>
     );

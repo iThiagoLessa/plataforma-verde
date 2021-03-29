@@ -4,7 +4,7 @@ import EditarImg from "../assets/img/editar.png";
 import ExcluirImg from "../assets/img/excluir.png";
 
 const Table = (props) => {
- // console.log(props.line);
+  // console.log(props.line);
   function excluir(id) {
     const index = props.line.findIndex((elm) => {
       return elm.id === id;
@@ -12,8 +12,6 @@ const Table = (props) => {
     //removendo do json
     props.line.splice(props.line.indexOf(index), 1);
     props.excluirLinha(props.line);
-    console.log(props.line);
-    console.log(index);
   }
   function formatarDataParaEditar(data) {
     const [day, month, year] = data.match(/\d+/g);
@@ -31,10 +29,20 @@ const Table = (props) => {
     nome.value = props.line[index].nome;
     date.value = formatarDataParaEditar(props.line[index].data);
     state.value = props.line[index].estado;
-    city.value = props.line[index].cidade;
+    const optionSelected = state.options[state.selectedIndex];
+    const idEstado = parseInt(optionSelected.dataset.id);
+    //buscando a cidade do estado selecionado
+    fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${idEstado}/municipios`
+    ).then((resp) => {
+      if (resp.status === 200) {
+        resp.json().then((json) => {
+          props.setCidade(json);
+          city.value = props.line[index].cidade;
+        });
+      }
+    });
     props.searchIndex(index);
-    console.log(props.line);
-    console.log(props.line[index]);
   }
 
   return (
@@ -60,8 +68,20 @@ const Table = (props) => {
                 <td>{itens.idade}</td>
                 <td>{itens.estado}</td>
                 <td>{itens.cidade}</td>
-                <td onClick={(_) => editar(itens.id)}><img className="editar" alt="editar usuario" src={EditarImg} /></td>
-                <td onClick={(_) => excluir(itens.id)}><img className="excluir" alt="excluir usuario" src={ExcluirImg} /></td>
+                <td onClick={(_) => editar(itens.id)}>
+                  <img
+                    className="editar"
+                    alt="editar usuario"
+                    src={EditarImg}
+                  />
+                </td>
+                <td onClick={(_) => excluir(itens.id)}>
+                  <img
+                    className="excluir"
+                    alt="excluir usuario"
+                    src={ExcluirImg}
+                  />
+                </td>
               </tr>
             );
           })}
