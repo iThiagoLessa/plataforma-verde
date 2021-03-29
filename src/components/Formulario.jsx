@@ -22,11 +22,12 @@ class Formulario extends Component {
   }
 
   componentDidMount() {
-    fetch("http://www.geonames.org/childrenJSON?geonameId=3469034").then(
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados").then(
       (resp) => {
         if (resp.status === 200) {
           resp.json().then((json) => {
-            this.setEstado(json.geonames);
+            //console.log(console.log(json))
+            this.setEstado(json);
           });
         }
       }

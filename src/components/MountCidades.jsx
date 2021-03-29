@@ -1,6 +1,10 @@
 import React from "react";
 
 const MountCidades = (props) => {
+  const teste = props.cidades.filter(cidades => {
+    return cidades.name === "São Paulo";
+  });
+  console.log(teste);
   return (
     <select required id="city">
       <option value="">Selecione o estado</option>
@@ -8,9 +12,9 @@ const MountCidades = (props) => {
         return (
           <option
             key={index}
-            value={cidades.name}
+            value={cidades.nome}
           >
-            {cidades.name}
+            {cidades.nome}
           </option>
         );
       })}

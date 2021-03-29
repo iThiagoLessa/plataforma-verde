@@ -6,12 +6,12 @@ const MontaEstados = (props) => {
     const select = document.getElementById("state");
     const optionSelected = select.options[select.selectedIndex];
     const id = parseInt(optionSelected.dataset.id);
-    fetch(`http://www.geonames.org/childrenJSON?geonameId=${id}`).then(
+      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`).then(
         (resp) => {
           if (resp.status === 200) {
             resp.json().then((json) => {
-                props.setCidade(json.geonames);
-                //console.log(props.listaEstados);
+                props.setCidade(json);
+                //console.log(json);
             });
           }
         }
@@ -25,10 +25,10 @@ const MontaEstados = (props) => {
         return (
           <option
             key={index}
-            value={estados.adminCodes1.ISO3166_2}
-            data-id={estados.geonameId}
+            value={estados.sigla}
+            data-id={estados.id}
           >
-            {estados.name}
+            {estados.nome}
           </option>
         );
       })}
